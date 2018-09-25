@@ -34,11 +34,12 @@ const fetchquizzes = (amount, difficulty, type) => (dispatch) => {
           },
         });
       } else {
+        const resultsWithId = body.results.map((each, index) => ({ ...each, ...{ id: index } }));
         dispatch({
           type: actionTypes.READ_RESOURCES_SUCCEEDED,
           resourceType: 'quizzes',
           requestKey: 'fetch',
-          resources: body,
+          resources: resultsWithId,
           requestProperties: {
             statusCode: res.statusCode,
           },

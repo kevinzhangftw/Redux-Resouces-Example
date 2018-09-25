@@ -1,13 +1,7 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button, Alert} from 'react-native';
+import { connect } from 'react-redux'
+import fetchQuizzes from '../actions/quizzes'
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -17,15 +11,18 @@ const instructions = Platform.select({
 });
 
 type Props = {};
-export default class App extends Component<Props> {
+class MainScreen extends Component<Props> {
+
   render() {
     return (
       <View style={styles.container}>
-        <Button title='get some quizzes' onPress={() => Alert.alert('quizzz')} />
+        <Button title='get some quizzes' onPress={() => this.props.dispatch(fetchQuizzes(10, 'hard', 'boolean'))} />
       </View>
     );
   }
 }
+
+export default connect()(MainScreen)
 
 const styles = StyleSheet.create({
   container: {
