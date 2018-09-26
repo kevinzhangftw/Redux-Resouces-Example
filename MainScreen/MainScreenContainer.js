@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, Alert} from 'react-native';
 import { connect } from 'react-redux'
 import MainScreen from './MainScreen'
 // import fetchQuizzes from '../actions/quizzes'
