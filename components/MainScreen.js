@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button, Alert} from 'react-native';
 import { connect } from 'react-redux'
-import fetchQuizzes from '../actions/quizzes'
+// import fetchQuizzes from '../actions/quizzes'
+import fetchResources from '../actions/resources'
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -12,11 +13,12 @@ const instructions = Platform.select({
 
 type Props = {};
 class MainScreen extends Component<Props> {
-
   render() {
+    const queryString = `https://opentdb.com/api.php?amount=5&difficulty=hard&type=boolean`
     return (
       <View style={styles.container}>
-        <Button title='get some quizzes' onPress={() => this.props.dispatch(fetchQuizzes(10, 'hard', 'boolean'))} />
+        <Button title='get some quizzes' onPress={() => this.props.dispatch(fetchResources('quizzes', 'fetchQuizzes', queryString))} />
+        {/* <Button title='get some quizzes' onPress={() => this.props.dispatch(fetchQuizzes(10, 'hard', 'boolean'))} /> */}
       </View>
     );
   }

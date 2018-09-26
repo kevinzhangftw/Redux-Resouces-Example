@@ -2,39 +2,39 @@ import { actionTypes } from 'redux-resource';
 import xhr from 'xhr';
 import createActionCreators from 'redux-resource-action-creators';
 
-const readActionCreators = createActionCreators('read', {
-  resourceType: 'quizzes',
-  requestKey: 'fetchQuizzes',
+const readActionCreatorsFor = (type, key) => createActionCreators('read', {
+  resourceType: type,
+  requestKey: key,
 });
 
-const requestQuizzes = () => ({
+const requestResources = (type, key) => ({
   type: actionTypes.READ_RESOURCES_PENDING,
-  resourceType: 'quizzes',
-  requestKey: 'fetchQuizzes',
+  resourceType: type,
+  requestKey: key,
 });
 
-const fetchquizzes = (amount, difficulty, type) => (dispatch) => {
-  dispatch(requestQuizzes());
-  const queryString = `https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&type=${type}`;
+const fetchResources = (resourceType, resourceKey, queryString) => (dispatch) => {
+  dispatch(requestResources(resourceType, resourceKey));
   const req = xhr.get(
     queryString,
     { json: true },
     (err, res, body) => {
       if (req.aborted) {
-        dispatch(readActionCreators.idle({
+        dispatch(readActionCreatorsFor(resourceType, resourceKey).idle({
           requestProperties: {
             statusCode: null,
           },
         }));
       } else if (err || res.statusCode >= 400) {
-        dispatch(readActionCreators.failed({
+        dispatch(readActionCreatorsFor(resourceType, resourceKey).failed({
           requestProperties: {
             statusCode: res.statusCode,
           },
         }));
       } else {
+        // if each resource doesn come with id
         const resultsWithId = body.results.map((each, index) => ({ ...each, ...{ id: index } }));
-        dispatch(readActionCreators.succeeded({
+        dispatch(readActionCreatorsFor(resourceType, resourceKey).succeeded({
           resources: resultsWithId,
           requestProperties: {
             statusCode: res.statusCode,
@@ -45,4 +45,4 @@ const fetchquizzes = (amount, difficulty, type) => (dispatch) => {
   );
 };
 
-export default fetchquizzes;
+export default fetchResources;
