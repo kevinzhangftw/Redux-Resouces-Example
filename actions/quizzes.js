@@ -23,24 +23,13 @@ const fetchquizzes = (amount, difficulty, type) => (dispatch) => {
     { json: true },
     (err, res, body) => {
       if (req.aborted) {
-        dispatch(readActionCreators.idle({
-          requestProperties: {
-            statusCode: null,
-          },
-        }));
+        dispatch(readActionCreators.idle());
       } else if (err || res.statusCode >= 400) {
-        dispatch(readActionCreators.failed({
-          requestProperties: {
-            statusCode: res.statusCode,
-          },
-        }));
+        dispatch(readActionCreators.failed());
       } else {
         const resultsWithId = body.results.map((each, index) => ({ ...each, ...{ id: index } }));
         dispatch(readActionCreators.succeeded({
           resources: resultsWithId,
-          requestProperties: {
-            statusCode: res.statusCode,
-          },
         }));
       }
     },
