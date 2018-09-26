@@ -1,11 +1,18 @@
 import { actionTypes } from 'redux-resource';
 import xhr from 'xhr';
+import createActionCreators from 'redux-resource-action-creators';
 // import qs from 'querystring';
+
+const readActionCreators = createActionCreators('read', {
+  resourceType: 'quizzes',
+  requestKey: 'fetchQuizzes',
+});
+
 
 const requestQuizzes = () => ({
   type: actionTypes.READ_RESOURCES_PENDING,
   resourceType: 'quizzes',
-  requestKey: 'fetch',
+  requestKey: 'fetchQuizzes',
 });
 
 const fetchquizzes = (amount, difficulty, type) => (dispatch) => {
@@ -16,34 +23,25 @@ const fetchquizzes = (amount, difficulty, type) => (dispatch) => {
     { json: true },
     (err, res, body) => {
       if (req.aborted) {
-        dispatch({
-          type: actionTypes.READ_RESOURCES_IDLE,
-          resourceType: 'quizzes',
-          requestKey: 'fetch',
+        dispatch(readActionCreators.idle({
           requestProperties: {
             statusCode: null,
           },
-        });
+        }));
       } else if (err || res.statusCode >= 400) {
-        dispatch({
-          type: actionTypes.READ_RESOURCES_FAILED,
-          resourceType: 'quizzes',
-          requestKey: 'fetch',
+        dispatch(readActionCreators.failed({
           requestProperties: {
             statusCode: res.statusCode,
           },
-        });
+        }));
       } else {
         const resultsWithId = body.results.map((each, index) => ({ ...each, ...{ id: index } }));
-        dispatch({
-          type: actionTypes.READ_RESOURCES_SUCCEEDED,
-          resourceType: 'quizzes',
-          requestKey: 'fetch',
+        dispatch(readActionCreators.succeeded({
           resources: resultsWithId,
           requestProperties: {
             statusCode: res.statusCode,
           },
-        });
+        }));
       }
     },
   );

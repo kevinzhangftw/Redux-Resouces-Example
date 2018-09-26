@@ -4913,6 +4913,12 @@ redux-devtools-extension@^2.13.5:
   version "2.13.5"
   resolved "https://registry.yarnpkg.com/redux-devtools-extension/-/redux-devtools-extension-2.13.5.tgz#3ff34f7227acfeef3964194f5f7fc2765e5c5a39"
 
+redux-resource-action-creators@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/redux-resource-action-creators/-/redux-resource-action-creators-2.0.1.tgz#512a29b14efc36a524c9e75f491e3a43a78353f2"
+  dependencies:
+    redux-resource "^3.0.0"
+
 redux-resource-xhr@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/redux-resource-xhr/-/redux-resource-xhr-4.0.1.tgz#4033b20b0946fb9426f45809a4e7cf7645c99c18"
